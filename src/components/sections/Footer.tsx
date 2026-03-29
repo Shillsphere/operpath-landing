@@ -15,7 +15,7 @@ export function Footer() {
           />
         </a>
         <div className="flex items-center gap-6 text-[#868e96]">
-          <a href="https://www.linkedin.com/in/parkernuttall/" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-[#1a1a2e]">LinkedIn</a>
+          <a href="https://www.linkedin.com/company/operpath" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-[#1a1a2e]">LinkedIn</a>
           <a href="mailto:parkernuttall9@gmail.com" className="transition-colors hover:text-[#1a1a2e]">Email</a>
           <span>Madison, WI</span>
         </div>
