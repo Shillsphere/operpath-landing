@@ -1,51 +1,11 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
-import { useInView } from "framer-motion";
 import { SectionReveal } from "@/components/ui/SectionReveal";
-
-const STATS = [
-  { value: 10, suffix: "+", label: "Hours saved daily" },
-  { value: 98, suffix: "%", label: "Verification accuracy" },
-  { value: 0, suffix: "", label: "Manual touchpoints" },
-  { value: 24, suffix: "/7", label: "Uptime capability" },
-];
-
-function Counter({ target, suffix }: { target: number; suffix: string }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!isInView) return;
-    if (target === 0) return;
-    const duration = 1400;
-    const start = performance.now();
-    let raf: number;
-
-    function tick(now: number) {
-      const elapsed = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 4);
-      setCount(Math.round(target * eased));
-      if (progress < 1) raf = requestAnimationFrame(tick);
-    }
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [isInView, target]);
-
-  return (
-    <span ref={ref} className="tabular-nums">
-      {count}
-      {suffix}
-    </span>
-  );
-}
 
 export function Results() {
   return (
     <section id="results" className="py-24 md:py-32">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-3xl px-6">
         <SectionReveal>
           <div className="mb-16 text-center">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-accent)]">
@@ -60,24 +20,6 @@ export function Results() {
             </p>
           </div>
         </SectionReveal>
-
-        {/* Stats Grid */}
-        <div className="mb-12 grid grid-cols-2 gap-4 md:grid-cols-4">
-          {STATS.map((stat, i) => (
-            <SectionReveal key={stat.label} delay={i * 0.08}>
-              <div className="relative overflow-hidden rounded-2xl glass-panel p-6 text-center">
-                {/* Subtle top glow */}
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--color-accent)]/20 to-transparent" />
-                <div className="text-4xl font-bold tracking-tight font-[family-name:var(--font-display)] text-[var(--color-text)] md:text-5xl">
-                  <Counter target={stat.value} suffix={stat.suffix} />
-                </div>
-                <p className="mt-1.5 text-sm text-[var(--color-text-secondary)]">
-                  {stat.label}
-                </p>
-              </div>
-            </SectionReveal>
-          ))}
-        </div>
 
         {/* Quote */}
         <SectionReveal delay={0.2}>
