@@ -86,9 +86,10 @@ export function LogoReveal() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.2, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
-            className="font-[family-name:var(--font-display)] text-[clamp(2rem,1.5rem+2.5vw,3.25rem)] font-medium leading-none tracking-[-0.02em] text-[color:var(--color-cream)]"
+            className="text-[clamp(1.6rem,1.2rem+2vw,2.5rem)] font-semibold leading-none text-[color:var(--color-cream)]"
+            style={{ letterSpacing: "0.18em" }}
           >
-            OperPath
+            OPERPATH
           </motion.span>
         </motion.div>
       </motion.div>

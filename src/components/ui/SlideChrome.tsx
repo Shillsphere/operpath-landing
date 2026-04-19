@@ -1,15 +1,24 @@
 "use client";
 
+import Image from "next/image";
 import { ReactNode } from "react";
-import { OperPathGlyph } from "./Glyph";
 
-/** Brand mark — small, bottom-left. Icon + wordmark. */
+/** Brand mark — small, bottom-left. Real favicon + wordmark. */
 export function BrandMark() {
   return (
     <div className="pointer-events-none absolute bottom-7 left-8 z-30 flex items-center gap-2.5 md:bottom-9 md:left-12">
-      <OperPathGlyph size={18} className="text-[color:var(--color-cream)]" />
-      <span className="text-[14px] font-medium tracking-[-0.005em] text-[color:var(--color-cream)]">
-        OperPath
+      <Image
+        src="/favicon.png"
+        alt=""
+        width={80}
+        height={80}
+        className="h-6 w-6 object-contain"
+      />
+      <span
+        className="text-[11px] font-semibold text-[color:var(--color-cream)]"
+        style={{ letterSpacing: "0.18em" }}
+      >
+        OPERPATH
       </span>
     </div>
   );

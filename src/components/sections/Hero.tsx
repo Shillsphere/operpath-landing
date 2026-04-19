@@ -137,7 +137,7 @@ export function Intro() {
             className="max-w-md leading-[1.55] text-[var(--zone-fg-secondary)]"
             style={{ fontSize: "var(--step-1)" }}
           >
-            OperPath builds custom agents for the messy, nuance-heavy processes
+            OPERPATH builds custom agents for the messy, nuance-heavy processes
             living inside your business — the ones no off-the-shelf tool will
             ever quite fit.
           </p>
@@ -353,24 +353,31 @@ function ProcessFlow() {
   }, [run, clear]);
 
   return (
-    <div className="relative mx-auto" style={{ perspective: "2400px" }}>
+    <div className="relative mx-auto" style={{ perspective: "1500px" }}>
       {/* Connecting flow lines (SVG) */}
       <FlowLines phase={phase} />
 
-      {/* Main 3-stage flow */}
+      {/* Main 3-stage flow.
+          All three screens tilt the SAME direction (rotateY negative = facing
+          left) like a row of file windows on a desk, viewed from the right.
+          Individual framer-motion transform props (rotateY, translateZ) —
+          NOT a transform string — because animate={{ scale }} otherwise
+          overwrites the full transform and flattens the 3D. */}
       <div
         className="relative flex items-center justify-center gap-6 lg:gap-10"
         style={{
-          transform: "rotateX(5deg) rotateY(-3deg)",
           transformStyle: "preserve-3d",
+          transform: "rotateX(4deg)",
         }}
       >
         {/* Stage 1 — Slip */}
         <motion.div
           className="hidden md:block w-[280px] flex-shrink-0"
           style={{
-            transform: "translateZ(-40px) translateY(18px) rotateY(7deg)",
             transformStyle: "preserve-3d",
+            rotateY: -18,
+            translateZ: -80,
+            y: 26,
           }}
           animate={{
             scale: phase === "slip" ? 1.02 : 0.96,
@@ -449,12 +456,13 @@ function ProcessFlow() {
           </Floaty>
         </motion.div>
 
-        {/* Stage 2 — ERP (center) */}
+        {/* Stage 2 — ERP (center). Same left-facing tilt, pushed forward in Z. */}
         <motion.div
           className="w-full max-w-[580px] flex-shrink-0"
           style={{
-            transform: "translateZ(40px)",
             transformStyle: "preserve-3d",
+            rotateY: -14,
+            translateZ: 50,
           }}
           animate={{
             scale: phase === "erp" ? 1.02 : 0.99,
@@ -614,7 +622,9 @@ function ProcessFlow() {
                 </div>
               </div>
 
-              {/* Satellite: verification card */}
+              {/* Satellite: verification card — pushed further down-right so
+                  it never overlaps the reasoning trace satellite at top-left.
+                  Individual transform props preserve rotateY across animate. */}
               <motion.div
                 initial={false}
                 animate={{
@@ -623,8 +633,8 @@ function ProcessFlow() {
                   scale: showCard ? 1 : 0.94,
                 }}
                 transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                className="lg-raised absolute -bottom-14 -right-10 z-20 w-64 rounded-2xl p-4"
-                style={{ transform: "translateZ(60px) rotateY(-6deg)" }}
+                className="lg-raised absolute -bottom-24 -right-28 z-20 w-64 rounded-2xl p-4"
+                style={{ rotateY: -10, translateZ: 100 }}
               >
                 <div className="mb-2.5 flex items-center justify-between border-b border-white/[0.06] pb-2">
                   <div className="flex items-center gap-1.5 font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-white/80">
@@ -650,7 +660,9 @@ function ProcessFlow() {
                 </div>
               </motion.div>
 
-              {/* Satellite: reasoning trace */}
+              {/* Satellite: reasoning trace — pushed further up-left so it
+                  stays clear of the verification card satellite at bottom-right.
+                  Individual transform props preserve rotateY across animate. */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{
@@ -658,8 +670,8 @@ function ProcessFlow() {
                   x: phase === "erp" ? 0 : -20,
                 }}
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-                className="lg absolute -top-16 -left-8 z-20 w-52 rounded-xl p-3"
-                style={{ transform: "translateZ(55px) rotateY(8deg)" }}
+                className="lg absolute -top-24 -left-28 z-20 w-52 rounded-xl p-3"
+                style={{ rotateY: -10, translateZ: 90 }}
               >
                 <div className="mb-2 flex items-center gap-1.5 font-mono text-[9.5px] uppercase tracking-[0.12em] text-white/65">
                   <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="text-[var(--color-accent)]">
@@ -684,12 +696,14 @@ function ProcessFlow() {
           </Floaty>
         </motion.div>
 
-        {/* Stage 3 — Sheets */}
+        {/* Stage 3 — Sheets. Same left-facing tilt as the other two. */}
         <motion.div
           className="hidden md:block w-[280px] flex-shrink-0"
           style={{
-            transform: "translateZ(-40px) translateY(18px) rotateY(-7deg)",
             transformStyle: "preserve-3d",
+            rotateY: -18,
+            translateZ: -80,
+            y: 26,
           }}
           animate={{
             scale: phase === "sheets" ? 1.02 : 0.96,

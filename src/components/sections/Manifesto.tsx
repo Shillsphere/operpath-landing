@@ -116,7 +116,7 @@ export function Manifesto() {
             className="font-[family-name:var(--font-display)] leading-[1.5] text-[color:var(--color-cream-dim)]"
             style={{ fontSize: "clamp(1rem, 0.88rem + 0.4vw, 1.15rem)" }}
           >
-            For operators running industrial distribution, OperPath is the
+            For operators running industrial distribution, OPERPATH is the
             team that builds the custom agents no off-the-shelf tool will
             touch — the receiving, the exceptions, the tribal knowledge —
             so your people stop doing manual work and start{" "}

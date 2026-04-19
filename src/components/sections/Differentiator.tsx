@@ -43,7 +43,7 @@ export function Differentiator() {
               Off-the-shelf SaaS
             </span>
             <span className="text-center text-[11px] font-medium uppercase tracking-[0.22em] text-[color:var(--color-cream)]">
-              OperPath
+              OPERPATH
             </span>
           </div>
           {ROWS.map((row, i) => (

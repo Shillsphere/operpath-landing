@@ -146,15 +146,19 @@
   }
 
   body {
-    /* Sans body for modern-executive feel. The display serif is reserved for
-       headlines only — used surgically, not everywhere. */
+    /* Sans body — Geist with tight optical tuning. Display serif reserved
+       for editorial beats. Hanging punctuation enables the subtle magazine
+       feel where quotes and commas hang into the margin. */
     font-family: var(--font-sans);
     font-size: var(--step-0);
-    line-height: 1.5;
+    line-height: 1.52;
     letter-spacing: -0.005em;
     background: var(--color-sky-deep);
     color: var(--color-cream);
-    font-feature-settings: "ss01", "liga", "calt";
+    font-feature-settings: "ss01", "ss02", "liga", "calt", "kern";
+    font-optical-sizing: auto;
+    hanging-punctuation: first last allow-end;
+    -webkit-font-smoothing: antialiased;
   }
 
   ::selection {
@@ -200,8 +204,13 @@
   }
 
   /* Warm headline gradient: ivory → ember, like the reference's
-     "Read the research. Skip the noise." treatment. */
+     "Read the research. Skip the noise." treatment. The padding + negative
+     margin give Fraunces italic glyphs (especially 'l', 'd', 'f') room to
+     overhang their advance box so background-clip doesn't chop ascenders. */
   .text-editorial-gradient {
+    display: inline-block;
+    padding: 0.12em 0.18em 0.08em 0.02em;
+    margin: -0.12em -0.18em -0.08em -0.02em;
     background-image: linear-gradient(
       100deg,
       var(--color-cream) 0%,
@@ -213,6 +222,12 @@
             background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
+  }
+  .text-editorial-gradient em,
+  .text-editorial-gradient .em {
+    /* Italic letterforms lean right; give the last-character slant breathing
+       room so terminals don't get clipped against the parent box. */
+    padding-inline-end: 0.08em;
   }
 
   img { user-drag: none; -webkit-user-drag: none; }
@@ -530,6 +545,388 @@
 }
 .editorial-rise { animation: editorial-rise 1s var(--ease-out-expo) both; }
 
+/* Materialize — no translate. Scale-up + blur-fade only. Reads as confident
+   settling, not arrival. This is the entry a top editorial studio would use
+   for display type: the letterforms *resolve* out of the page instead of
+   sliding onto it. */
+@keyframes editorial-materialize {
+  0%   { opacity: 0; transform: scale(0.965); filter: blur(8px); letter-spacing: 0.02em; }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: scale(1);     filter: blur(0);   letter-spacing: inherit; }
+}
+.editorial-materialize {
+  animation: editorial-materialize 1.3s var(--ease-out-expo) both;
+}
+
+/* Chromatic breathing — sits on display headlines at rest, adds a tiny
+   life-signature after the materialize. Almost imperceptible but it's the
+   difference between print-static and screen-living. */
+@keyframes editorial-breathe {
+  0%, 100% { filter: drop-shadow(0 0 0 transparent); }
+  50%      { filter: drop-shadow(0 0 18px var(--color-ember-glow)); }
+}
+.editorial-breathe { animation: editorial-breathe 9s ease-in-out infinite; }
+
+/* ── Hero atmosphere (nighttime industrial scene) ──────────────────────
+   Layered subtle animations so nothing is perfectly still but nothing
+   demands attention either. The ember-breath is the emotional anchor —
+   everything else is secondary. */
+@keyframes hero-ember-breath {
+  0%, 100% { opacity: 0.72; transform: scale(1);    }
+  50%      { opacity: 1.00; transform: scale(1.06); }
+}
+.hero-ember-breath {
+  animation: hero-ember-breath 6.5s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+@keyframes hero-ember-window {
+  0%, 100% { opacity: 0.7; }
+  50%      { opacity: 1;   }
+}
+.hero-ember-window      { animation: hero-ember-window 3.2s ease-in-out infinite; }
+.hero-ember-window-slow { animation: hero-ember-window 6.8s ease-in-out infinite; }
+.hero-ember-window-alt  { animation: hero-ember-window 4.4s ease-in-out infinite 1.5s; }
+
+@keyframes hero-ember-flicker {
+  0%, 55%, 76%, 100% { opacity: 0.95; }
+  60%, 73%           { opacity: 0.25; }
+  65%                { opacity: 0.85; }
+}
+.hero-ember-flicker { animation: hero-ember-flicker 9s ease-in-out infinite; }
+
+@keyframes hero-star-twinkle {
+  0%, 100% { opacity: 0.18; }
+  50%      { opacity: 0.85; }
+}
+.hero-star { animation: hero-star-twinkle 4.5s ease-in-out infinite; }
+
+@keyframes hero-scene-drift {
+  0%, 100% { transform: scale(1) translateY(0); }
+  50%      { transform: scale(1.012) translateY(-2px); }
+}
+.hero-scene-drift {
+  animation: hero-scene-drift 28s ease-in-out infinite;
+  transform-origin: 50% 55%;
+}
+
+@keyframes hero-caption-cycle {
+  0%, 18%   { opacity: 1; transform: translateY(0); }
+  22%, 98%  { opacity: 0; transform: translateY(-4px); }
+  100%      { opacity: 0; transform: translateY(0); }
+}
+
+/* ── Logo draw-in ──
+   Monoline draw with a ghost-underlay technique. The ghost path is a faint
+   always-visible line that shows the logo's full shape from the start so
+   there's no "empty" moment. The bright chrome stroke draws over the ghost
+   via stroke-dashoffset, giving the effect of ink being pulled along a
+   pre-engraved groove. Each path uses pathLength="1" so timing is uniform
+   across strokes regardless of length. */
+@keyframes logo-draw {
+  from { stroke-dashoffset: 1; }
+  to   { stroke-dashoffset: 0; }
+}
+.logo-stroke {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: logo-draw 1.2s cubic-bezier(0.72, 0, 0.18, 1) both;
+}
+/* Ghost path — visible from the start, never animates. Carries a hint of
+   warmth so the pre-drawn shape isn't clinical. */
+.logo-ghost {
+  stroke: var(--color-cream);
+  opacity: 0.07;
+}
+/* After draw-in: a subtle ember glow that slowly breathes. */
+@keyframes logo-settle {
+  0%   { filter: drop-shadow(0 0 0 transparent); }
+  55%  { filter: drop-shadow(0 0 22px var(--color-ember-glow)); }
+  100% { filter: drop-shadow(0 0 10px var(--color-ember-glow)); }
+}
+.logo-settle {
+  animation: logo-settle 2.4s ease-in-out 2.2s both;
+}
+.logo-breathe-after {
+  animation: editorial-breathe 9s ease-in-out 4.6s infinite;
+}
+
+/* ── Agent drift patterns (city-wide "agents" doing work) ──
+   Each agent is a slow-breathing ember at a fixed window. These keyframes
+   layer a subtle additional drift + scale over the breath so each agent
+   has its own signature. Kept tiny (px-scale, not big translates) so agents
+   read as settled-but-alive, not jittery. */
+@keyframes agent-breath-a {
+  0%, 100% { opacity: 0.75; transform: scale(1); }
+  50%      { opacity: 1;    transform: scale(1.08); }
+}
+@keyframes agent-breath-b {
+  0%, 100% { opacity: 0.85; transform: scale(0.98); }
+  40%      { opacity: 1;    transform: scale(1.04); }
+  70%      { opacity: 0.9;  transform: scale(1.02); }
+}
+@keyframes agent-breath-c {
+  0%, 100% { opacity: 0.65; transform: scale(0.96); }
+  50%      { opacity: 1;    transform: scale(1.1); }
+}
+.agent-breath-a { animation: agent-breath-a 4.2s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+.agent-breath-b { animation: agent-breath-b 5.6s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+.agent-breath-c { animation: agent-breath-c 6.8s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+
+/* Occasional flicker — one agent occasionally "thinks hard" and gutters */
+@keyframes agent-flicker {
+  0%, 58%, 74%, 100% { opacity: 1;    transform: scale(1.04); }
+  62%, 72%           { opacity: 0.35; transform: scale(0.94); }
+  68%                { opacity: 0.9;  transform: scale(1.02); }
+}
+.agent-flicker { animation: agent-flicker 7.8s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+
+/* Page bg ember flair — mostly hidden, pulses in warmly every ~14s so
+   the site reads near-black most of the time with a quiet warm heartbeat. */
+@keyframes hero-bg-flair {
+  0%, 100% { opacity: 0.08; transform: scale(1); }
+  45%, 55% { opacity: 0.55; transform: scale(1.04); }
+}
+.hero-bg-flair {
+  animation: hero-bg-flair 14s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* ── Ember cascade (the OPERPATH spread) ──
+   One cell lights, pauses briefly as the "starter," then the rest cascade
+   across the word. Each cell's animation-delay is set inline by index. The
+   long tail on the keyframe keeps lit cells settled after their flash-in. */
+@keyframes ember-spread-in {
+  0%   { opacity: 0;    transform: scale(0.2);  }
+  55%  { opacity: 1;    transform: scale(1.35); }
+  100% { opacity: 0.97; transform: scale(1);    }
+}
+.ember-cell {
+  opacity: 0;
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: ember-spread-in 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Slow shimmer on the fully-lit word — SigmaAi-exact ember palette.
+   Layered drop-shadows create the timelapsed ghosted halation: a tight
+   hot core, a saturated orange mid-layer, a bleed fade, and a deep rim
+   that falls off into the night. */
+@keyframes ember-word-shimmer {
+  0%, 100% {
+    filter:
+      drop-shadow(0 0 3px  rgba(255, 200, 144, 0.95))
+      drop-shadow(0 0 10px rgba(255, 148, 80,  0.78))
+      drop-shadow(0 0 28px rgba(255, 106, 34,  0.55))
+      drop-shadow(0 0 58px rgba(220, 72,  18,  0.32))
+      drop-shadow(0 0 110px rgba(156, 54, 16,  0.18));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 4px  rgba(255, 220, 168, 1))
+      drop-shadow(0 0 16px rgba(255, 168, 96,  0.9))
+      drop-shadow(0 0 40px rgba(255, 120, 48,  0.65))
+      drop-shadow(0 0 80px rgba(230, 80,  20,  0.4))
+      drop-shadow(0 0 140px rgba(180, 54, 16,  0.22));
+  }
+}
+.ember-word {
+  animation: ember-word-shimmer 6s ease-in-out infinite;
+}
+
+/* Pilot ember — the starter building that glows before the cascade.
+   Slow breath on one lone window, then fades as the cascade takes over. */
+@keyframes pilot-ember {
+  0%   { opacity: 0;   transform: scale(0.4); }
+  30%  { opacity: 0.9; transform: scale(1.1); }
+  85%  { opacity: 0.9; transform: scale(1); }
+  100% { opacity: 0.3; transform: scale(1); }
+}
+.pilot-ember {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: pilot-ember 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  filter:
+    drop-shadow(0 0 4px  rgba(255, 200, 144, 0.95))
+    drop-shadow(0 0 14px rgba(255, 148, 80,  0.7))
+    drop-shadow(0 0 30px rgba(255, 106, 34,  0.45));
+}
+
+/* ── Hero district image — Ken-Burns breath ──
+   Very slow scale + translate over 36s so the image never feels static.
+   Anime backgrounds always breathe; this is that. */
+@keyframes hero-image-drift {
+  0%, 100% { transform: scale(1.02) translate(0, 0); }
+  50%      { transform: scale(1.05) translate(-6px, -4px); }
+}
+.hero-image-drift {
+  animation: hero-image-drift 36s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* ── Halation overlay — the SigmaAi timelapsed motion-blur on the lights.
+   A blurred copy of the image blended with `screen` so only warm pixels
+   contribute; breathes between two intensities so the halation pulses. */
+@keyframes hero-halation-breath {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 0.95; }
+}
+.hero-halation {
+  animation: hero-halation-breath 5.6s ease-in-out infinite;
+}
+/* Second, slower halation for the wider/softer bleed */
+@keyframes hero-halation-wide-breath {
+  0%, 100% { opacity: 0.35; transform: scale(1.03); }
+  50%      { opacity: 0.7;  transform: scale(1.06); }
+}
+.hero-halation-wide {
+  animation: hero-halation-wide-breath 7.8s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Horizontal drift on one halation layer — creates the long-exposure
+   streak feel. Very small amplitude so it's felt, not seen. */
+@keyframes hero-halation-streak {
+  0%   { transform: translateX(-4px); }
+  50%  { transform: translateX(4px);  }
+  100% { transform: translateX(-4px); }
+}
+.hero-halation-streak {
+  animation: hero-halation-streak 9s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Animated film grain — tiny repositioning of the noise overlay every frame
+   gives cinematic grit without heavy GPU cost. */
+@keyframes hero-grain-shift {
+  0%   { transform: translate(0, 0); }
+  20%  { transform: translate(-3px, 2px); }
+  40%  { transform: translate(4px, -2px); }
+  60%  { transform: translate(-2px, -3px); }
+  80%  { transform: translate(3px, 2px); }
+  100% { transform: translate(0, 0); }
+}
+.hero-grain {
+  animation: hero-grain-shift 0.9s steps(5) infinite;
+}
+
+/* Rising ember mote — small glow point that drifts from bottom to top,
+   fading in/out at ends. Multiple of these with staggered delays create
+   the firefly/spark field. Paths set inline via CSS var --path-y. */
+@keyframes hero-mote-rise {
+  0%   { transform: translateY(0)    translateX(0); opacity: 0; }
+  15%  { opacity: 0.9; }
+  85%  { opacity: 0.75; }
+  100% { transform: translateY(var(--rise, -360px)) translateX(var(--drift, 0)); opacity: 0; }
+}
+.hero-mote {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #ffe1b4 0%, #ff9450 45%, #ff6a22 80%, transparent 100%);
+  animation: hero-mote-rise var(--dur, 16s) ease-out infinite;
+  filter:
+    drop-shadow(0 0 3px rgba(255, 170, 90, 0.9))
+    drop-shadow(0 0 8px rgba(255, 120, 40, 0.55));
+  will-change: transform, opacity;
+}
+
+/* ── District "wake-up" reveal ──
+   The image is darkened by a full-cover overlay. A RADIAL HOLE in that
+   overlay grows outward from the seed building position, progressively
+   revealing the image's real warm pixels — a wave of illumination that
+   radiates across the district. No fake glow dots; the image IS the light.
+   Uses @property so the gradient stop can actually animate. */
+@property --wake-r {
+  syntax: "<percentage>";
+  initial-value: 0%;
+  inherits: false;
+}
+@keyframes hero-wake {
+  0%   { --wake-r: 0%;   }
+  100% { --wake-r: 160%; }
+}
+.hero-wake-overlay {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: multiply;
+  background: radial-gradient(
+    circle at var(--seed-x, 48%) var(--seed-y, 74%),
+    transparent var(--wake-r, 0%),
+    transparent calc(var(--wake-r, 0%) + 4%),
+    rgba(3, 5, 6, 0.92) calc(var(--wake-r, 0%) + 32%)
+  );
+  animation: hero-wake 5.5s cubic-bezier(0.22, 1, 0.36, 1) 1.2s forwards;
+  pointer-events: none;
+  will-change: background;
+}
+
+/* Wake-up secondary halation wave — a slower, warmer bloom that rides
+   along the reveal, accenting the ember quality as it spreads. */
+@keyframes hero-wake-bloom {
+  0%   { --wake-r: 0%;   opacity: 0; }
+  10%  { opacity: 0.9;   }
+  100% { --wake-r: 140%; opacity: 0; }
+}
+.hero-wake-bloom {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    circle at var(--seed-x, 48%) var(--seed-y, 74%),
+    rgba(255, 160, 88, 0.35) 0%,
+    rgba(255, 120, 48, 0.18) calc(var(--wake-r, 0%) * 0.5),
+    transparent calc(var(--wake-r, 0%) + 10%)
+  );
+  animation: hero-wake-bloom 5.5s cubic-bezier(0.22, 1, 0.36, 1) 1.2s forwards;
+  pointer-events: none;
+  will-change: background, opacity;
+}
+
+/* Starter flash — a bright burst at the seed building the instant the
+   wake kicks off. Quick bloom then fades into the halation. */
+@keyframes hero-seed-flash {
+  0%   { transform: translate(-50%, -50%) scale(0.1); opacity: 0;   filter: blur(8px); }
+  35%  { transform: translate(-50%, -50%) scale(1.4); opacity: 1;   filter: blur(0);   }
+  100% { transform: translate(-50%, -50%) scale(3);   opacity: 0;   filter: blur(4px); }
+}
+.hero-seed-flash {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    #ffe1b4 0%,
+    #ff9450 40%,
+    #ff6a22 75%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  animation: hero-seed-flash 2.6s cubic-bezier(0.16, 1, 0.3, 1) 1.0s forwards;
+  pointer-events: none;
+  will-change: transform, opacity, filter;
+}
+
+/* Sonar ring — expanding mint/ember ring from the seed, riding the wave.
+   Reads as "propagation" — tells the viewer the light is SPREADING. */
+@keyframes hero-ignite-ring {
+  0%   { transform: translate(-50%, -50%) scale(0.1); opacity: 0.8; border-width: 2px; }
+  100% { transform: translate(-50%, -50%) scale(18);  opacity: 0;   border-width: 0.5px; }
+}
+.hero-ignite-ring {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 148, 80, 0.65);
+  mix-blend-mode: screen;
+  animation: hero-ignite-ring 4.5s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
 @keyframes logo-hover {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-6px); }
@@ -712,6 +1109,122 @@
 /* Buttons, UI chrome, numeric data keep the sans/mono families explicitly. */
 .font-sans-ui { font-family: var(--font-sans); }
 .font-mono-ui { font-family: var(--font-mono); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Editorial furniture — chapter marks, registration, drop caps.
+   These are the little details that separate a styled page from a
+   typeset page. Used sparingly.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Chapter mark — a thin rule, an italic name, a chapter number. Lives at
+   the bottom-right of a slide shell by default. Reference: SigmaAi's
+   "THINK DEEPER | 01". */
+.chapter-mark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 14px;
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-cream-muted);
+  font-variation-settings: "opsz" 14, "SOFT" 100, "WONK" 1;
+}
+.chapter-mark__name { opacity: 0.85; }
+.chapter-mark__bar {
+  display: inline-block;
+  width: 1px;
+  height: 22px;
+  background: var(--color-blueprint-soft);
+  transform: translateY(3px);
+}
+.chapter-mark__num {
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 0;
+  color: var(--color-cream);
+}
+
+/* Registration crosshair — a tiny '+' mark. Place at corners of frames,
+   like crop marks on a magazine spread. */
+.registration {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  color: var(--color-blueprint);
+  opacity: 0.55;
+}
+.registration::before,
+.registration::after {
+  content: "";
+  position: absolute;
+  background: currentColor;
+}
+.registration::before {
+  left: 50%; top: 0; bottom: 0;
+  width: 1px; transform: translateX(-50%);
+}
+.registration::after {
+  top: 50%; left: 0; right: 0;
+  height: 1px; transform: translateY(-50%);
+}
+
+/* Drop cap — for opening paragraphs. Large editorial serif that descends
+   three lines. Use sparingly — one per section, max. */
+.drop-cap::first-letter {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 4.4em;
+  line-height: 0.85;
+  float: left;
+  margin: 0.06em 0.12em 0 -0.04em;
+  color: var(--color-cream);
+  font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 0;
+}
+
+/* Halation — soft warm bloom behind a bright element. Sits under the
+   headline on hero slides, like an ember glow bleeding through paper. */
+.halation {
+  position: relative;
+}
+.halation::before {
+  content: "";
+  position: absolute;
+  inset: -30% -20%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse 60% 55% at 50% 55%,
+    var(--color-ember-glow) 0%,
+    oklch(70% 0.18 42 / 0.18) 30%,
+    transparent 70%);
+  filter: blur(40px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.55;
+}
+
+/* Editorial byline — thin serif italic credit line, like "FIELD NOTE | 01"
+   under a chapter headline. Restrained. */
+.byline {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: 13.5px;
+  letter-spacing: 0.02em;
+  color: var(--color-cream-muted);
+  font-variation-settings: "opsz" 14, "SOFT" 100, "WONK" 1;
+}
+.byline-rule {
+  display: inline-block;
+  width: 32px;
+  height: 1px;
+  background: var(--color-blueprint-soft);
+  vertical-align: middle;
+  margin: 0 10px;
+  transform: translateY(-1px);
+}
 
 /* ═══════════════════════════════════════════════════════════════════
    Wheel-scroll pager — slides live on the surface of a vertical drum.

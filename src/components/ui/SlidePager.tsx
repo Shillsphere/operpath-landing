@@ -84,14 +84,21 @@ export function SlidePager({
 
         // rotateX: slides above tilt toward the camera's chin (positive angle
         // so the bottom of the slide comes closer); slides below tilt up.
-        // Magnitude is capped so the edge slides don't go past 70°.
-        const rotateX = offset * 58;
+        const rotateX = offset * 62;
         // Depth: both directions recede so the centered slide is closest.
-        const translateZ = -Math.abs(offset) * 360;
+        const translateZ = -Math.abs(offset) * 420;
         // Gentle vertical shift to suggest curvature of the drum surface.
-        const translateY = -Math.abs(offset) * 40;
-        const opacity = Math.max(0, 1 - Math.abs(offset) * 0.9);
-        const blur = Math.min(8, Math.abs(offset) * 8);
+        const translateY = -Math.abs(offset) * 44;
+
+        // Sharper opacity curve — adjacent slides can't both be visible.
+        // Previous curve (1 - |offset| * 0.9) left a slide at offset 0.5
+        // rendering at 55% opacity, which caused two slides to overlap
+        // mid-scroll. The squared falloff goes to zero by |offset| ≈ 0.8.
+        const a = Math.abs(offset);
+        const opacity = Math.max(0, 1 - a * 1.55 - a * a * 0.6);
+        // Blur ramps faster so off-center slides defocus before they
+        // cross into the neighbor's space.
+        const blur = Math.min(14, a * 18);
 
         slide.style.setProperty("--wheel-rx", `${rotateX}deg`);
         slide.style.setProperty("--wheel-tz", `${translateZ}px`);

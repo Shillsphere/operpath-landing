@@ -33,12 +33,9 @@ export default function Home() {
 
       <SlidePager chapters={CHAPTERS}>
         <Slide id="intro">
-          <BlueprintLight variant="circles-right" />
-          <SlideShell chapter={CHAPTERS[0]} showBrand={false} showKicker={false}>
-            <div className="mx-auto w-full max-w-[1280px]">
-              <HeroChapter />
-            </div>
-          </SlideShell>
+          {/* Full-bleed editorial cover — HeroChapter owns its own layout,
+              chrome, and overlays (no SlideShell padding, no BlueprintLight). */}
+          <HeroChapter />
         </Slide>
 
         <Slide id="process">

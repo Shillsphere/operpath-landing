@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { EmailLink } from "@/components/ui/EmailLink";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -57,9 +58,14 @@ export function Footer() {
           </div>
           <ul className="space-y-2 text-sm text-[var(--zone-fg-secondary)]">
             <li>
-              <a href="mailto:parkernuttall9@gmail.com" className="hover:text-[var(--zone-fg)]">
-                parkernuttall9@gmail.com
-              </a>
+              <EmailLink user="parker" className="transition-colors hover:text-[var(--zone-fg)]">
+                Email Parker →
+              </EmailLink>
+            </li>
+            <li>
+              <EmailLink user="keaton" className="transition-colors hover:text-[var(--zone-fg)]">
+                Email Keaton →
+              </EmailLink>
             </li>
             <li>
               <a
@@ -95,7 +101,7 @@ export function Footer() {
 
       <div className="border-t border-white/[0.05]">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-6 py-5 text-xs text-[var(--zone-fg-muted)] sm:flex-row">
-          <p>&copy; {year} OperPath. All rights reserved.</p>
+          <p>&copy; {year} OPERPATH. All rights reserved.</p>
           <p className="font-mono tracking-wide">
             <span className="serif-italic not-italic" style={{ fontFamily: "var(--font-editorial)", fontStyle: "italic" }}>
               — made by humans, shipped by agents.

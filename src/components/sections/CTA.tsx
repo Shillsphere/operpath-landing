@@ -21,7 +21,7 @@ export function CTA() {
             className="mt-5 font-[family-name:var(--font-editorial)] font-normal leading-[1.05] tracking-[-0.02em] text-[color:var(--color-cream)]"
             style={{ fontSize: "clamp(2rem, 1.4rem + 2.4vw, 3.2rem)" }}
           >
-            Is OperPath a fit for your business?
+            Is OPERPATH a fit for your business?
           </h2>
 
           <p
