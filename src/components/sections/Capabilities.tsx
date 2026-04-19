@@ -18,7 +18,7 @@ const PRIOR_WORK = [
   {
     title: "Ship-date intelligence",
     blurb:
-      "Agents that log into vendor portals, pull ship-date changes, and reconcile them against the ERP — replacing the morning chase.",
+      "Agents that log into vendor portals, pull ship-date changes, and reconcile them against the ERP, replacing the morning chase.",
   },
   {
     title: "Exception workflows",

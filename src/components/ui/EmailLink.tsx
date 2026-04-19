@@ -12,7 +12,7 @@ export function EmailLink({
   user,
   children,
   className = "",
-  subject = "OPERPATH — quick question",
+  subject = "OPERPATH: quick question",
 }: {
   user: string;
   children: React.ReactNode;

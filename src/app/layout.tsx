@@ -30,16 +30,16 @@ const instrument = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "OperPath — Production AI for Industrial Distributors",
+  title: "OperPath: Production AI for Industrial Distributors",
   description:
-    "Custom AI agents that take over the messy, nuance-heavy manual work buried inside your ERP. Shipment receiving, ship-date tracking, exception workflows — built around how your team actually operates.",
+    "Custom AI agents that take over the messy, nuance-heavy manual work buried inside your ERP. Shipment receiving, ship-date tracking, exception workflows, built around how your team actually operates.",
   icons: {
     icon: "/favicon.png",
     shortcut: "/favicon.ico",
     apple: "/favicon.png",
   },
   openGraph: {
-    title: "OperPath — Production AI for Industrial Distributors",
+    title: "OperPath: Production AI for Industrial Distributors",
     description:
       "Custom AI agents that take over the messy, nuance-heavy manual work buried inside your ERP.",
     type: "website",

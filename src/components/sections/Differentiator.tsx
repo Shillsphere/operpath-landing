@@ -29,7 +29,7 @@ export function Differentiator() {
             className="mt-4 max-w-2xl text-[color:var(--color-cream-muted)]"
             style={{ fontSize: "1rem", lineHeight: 1.55 }}
           >
-            The big SaaS tools are built for everyone — which means they fit
+            The big SaaS tools are built for everyone, which means they fit
             no one. We build around how your team actually operates.
           </p>
         </div>

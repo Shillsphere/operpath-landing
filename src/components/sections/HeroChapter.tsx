@@ -33,18 +33,9 @@ export function HeroChapter() {
       <div className="relative z-10 grid h-full grid-cols-1 md:grid-cols-[1fr_1.2fr]">
         {/* ── LEFT — text stack, aligned from the top ── */}
         <div className="relative flex flex-col px-6 pb-6 pt-16 md:px-14 md:pb-12 md:pt-20 lg:pt-24">
-          {/* Byline — editorial eyebrow */}
-          <div
-            className="editorial-rise byline"
-            style={{ animationDelay: "0.15s", fontSize: "13px" }}
-          >
-            <span className="byline-rule" />
-            Field note &nbsp;·&nbsp; 01 &nbsp;·&nbsp; on building for operators
-          </div>
-
           {/* Headline */}
           <h1
-            className="editorial-materialize editorial-display halation mt-5 leading-[0.98]"
+            className="editorial-materialize editorial-display halation leading-[0.98]"
             style={{
               fontSize: "clamp(2.6rem, 1.8vw + 2.6rem, 5rem)",
               animationDelay: "0.3s",

@@ -118,8 +118,8 @@ export function Manifesto() {
           >
             For operators running industrial distribution, OPERPATH is the
             team that builds the custom agents no off-the-shelf tool will
-            touch — the receiving, the exceptions, the tribal knowledge —
-            so your people stop doing manual work and start{" "}
+            touch: the receiving, the exceptions, the tribal knowledge.
+            So your people stop doing manual work and start{" "}
             <span
               className="font-[family-name:var(--font-editorial)] italic"
               style={{ color: "oklch(76% 0.21 40)" }}

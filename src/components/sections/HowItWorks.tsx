@@ -26,7 +26,7 @@ const STEPS = [
     num: "04",
     title: "Expand",
     kicker: "Ongoing",
-    desc: "Once one process runs, the next is faster. We work through your automation backlog together — receiving, then returns, then expediting, then whatever's next.",
+    desc: "Once one process runs, the next is faster. We work through your automation backlog together: receiving, then returns, then expediting, then whatever's next.",
   },
 ];
 
@@ -48,7 +48,7 @@ export function HowItWorks() {
             className="mt-4 max-w-2xl text-[color:var(--color-cream-muted)]"
             style={{ fontSize: "1rem", lineHeight: 1.55 }}
           >
-            Every distributor is different — which is why off-the-shelf fails
+            Every distributor is different, which is why off-the-shelf fails
             here. We pair with one person who knows how the work actually runs,
             and build around the nuance that matters.
           </p>

@@ -39,7 +39,7 @@ function buildEmail(user: string): string {
 function openEmail(user: string): void {
   if (typeof window === "undefined") return;
   const addr = buildEmail(user);
-  const subject = "OPERPATH — quick question";
+  const subject = "OPERPATH: quick question";
   const body =
     "Hey,\n\nI'm reaching out about a process we'd like automated.\n\n—";
   window.location.href = `mailto:${addr}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;

@@ -138,7 +138,7 @@ export function Intro() {
             style={{ fontSize: "var(--step-1)" }}
           >
             OPERPATH builds custom agents for the messy, nuance-heavy processes
-            living inside your business — the ones no off-the-shelf tool will
+            living inside your business, the ones no off-the-shelf tool will
             ever quite fit.
           </p>
           <div className="mt-8 flex items-center gap-3 font-mono text-[10.5px] uppercase tracking-[0.2em] text-[var(--zone-fg-muted)]">
@@ -495,7 +495,7 @@ function ProcessFlow() {
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="opacity-50">
                       <circle cx="5" cy="5" r="4" stroke="currentColor" strokeWidth="1" />
                     </svg>
-                    erp.internal &nbsp;—&nbsp;&nbsp;dts management
+                    erp.internal &nbsp;/&nbsp;&nbsp;dts management
                   </div>
                   <div className="lg-chip flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[10px] font-medium text-[var(--color-accent)]">
                     <span className="relative flex h-1.5 w-1.5">
@@ -588,7 +588,7 @@ function ProcessFlow() {
                           </td>
                           <td className="px-3 py-2.5 font-mono tabular text-white/55">{row.ordered}</td>
                           <td className="px-3 py-2.5 font-mono tabular font-medium text-white/95">
-                            {typedQty[i] || <span className="text-white/25">—</span>}
+                            {typedQty[i] || <span className="text-white/25">·</span>}
                             {rowStates[i] === "filling" && (
                               <span className="ml-[1px] inline-block h-3 w-[1px] bg-[var(--color-ember)] blink align-middle" />
                             )}

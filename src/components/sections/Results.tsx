@@ -20,7 +20,7 @@ export function Results() {
             style={{ fontSize: "1rem", lineHeight: 1.55 }}
           >
             Distributors spend millions on ERPs and layer specialized tools on
-            top — Canals for invoice matching, Parspec for submittals, EDI for
+            top: Canals for invoice matching, Parspec for submittals, EDI for
             the big vendors. But the day-to-day work, the exceptions, the
             tribal knowledge living in people&apos;s heads, still gets done
             manually by experienced employees who should be doing higher-value

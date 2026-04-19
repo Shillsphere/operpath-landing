@@ -30,7 +30,7 @@ export function CTA() {
           >
             If you have a manual, repetitive process eating up your team&apos;s
             time, book a 30-minute call. We&apos;ll walk through your workflow,
-            tell you honestly whether we can automate it, and — if we can —
+            tell you honestly whether we can automate it, and if we can,
             give you a rough scope and price on the call.
           </p>
 

@@ -104,7 +104,7 @@ export function Footer() {
           <p>&copy; {year} OPERPATH. All rights reserved.</p>
           <p className="font-mono tracking-wide">
             <span className="serif-italic not-italic" style={{ fontFamily: "var(--font-editorial)", fontStyle: "italic" }}>
-              — made by humans, shipped by agents.
+              made by humans, shipped by agents.
             </span>
           </p>
         </div>
