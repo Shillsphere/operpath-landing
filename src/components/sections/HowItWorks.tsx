@@ -1,99 +1,88 @@
 "use client";
 
 import { SectionReveal } from "@/components/ui/SectionReveal";
-import { TiltCard } from "@/components/ui/TiltCard";
+import { SectionLabel } from "@/components/ui/SectionLabel";
 
 const STEPS = [
   {
     num: "01",
-    title: "Document Intake",
-    desc: "Packing slips, invoices, and POs arrive as PDFs or emails. Our AI reads them using computer vision — every line item, quantity, and vendor extracted instantly.",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="5" width="18" height="14" rx="2" />
-        <path d="M3 9h18" />
-        <path d="M8 13h4M8 16h6" />
-      </svg>
-    ),
+    title: "Shadow",
+    kicker: "Week 1",
+    desc: "We spend a week inside your operation, sitting next to the person who does the work today. Every exception, every workaround, every tribal rule gets documented.",
   },
   {
     num: "02",
-    title: "AI Verification",
-    desc: "Cross-references every line against your ERP. Vendor aliases, truncated descriptions, partial shipments — edge cases handled like a trained employee.",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="9" />
-        <path d="M12 7v5l3 3" />
-      </svg>
-    ),
+    title: "Build",
+    kicker: "Weeks 2 – 5",
+    desc: "We ship a working prototype in weeks, not months. You see it run against real data from day one.",
   },
   {
     num: "03",
-    title: "System Integration",
-    desc: "Connects via native API when available, and controls the browser to fill the gaps. Data enters your ERP through the same paths your team uses.",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="4" width="20" height="16" rx="3" />
-        <path d="M7 12h4v4H7z" />
-        <path d="M14 10h4M14 14h3" />
-        <circle cx="18" cy="7" r="1.5" />
-      </svg>
-    ),
+    title: "Deploy",
+    kicker: "Weeks 6 – 8",
+    desc: "Your team gets a simple interface to control the agent, review its work, and flag edge cases. People stop doing the work and start managing it.",
   },
   {
     num: "04",
-    title: "Complete",
-    desc: "Tracking sheets updated. Status synced. Your team sees the work done — zero touchpoints, zero errors. The agent handles the next document.",
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M7 12l4 4 6-8" />
-        <circle cx="12" cy="12" r="9" />
-      </svg>
-    ),
+    title: "Expand",
+    kicker: "Ongoing",
+    desc: "Once one process runs, the next is faster. We work through your automation backlog together — receiving, then returns, then expediting, then whatever's next.",
   },
 ];
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-24 md:py-32">
-      <div className="mx-auto max-w-6xl px-6">
-        <SectionReveal>
-          <div className="mb-16 text-center">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.15em] text-[var(--color-accent)]">
-              The Process
-            </p>
-            <h2 className="text-3xl font-bold tracking-tight font-[family-name:var(--font-display)] md:text-4xl">
-              How it works
-            </h2>
-            <p className="mt-3 text-[var(--color-text-secondary)]">
-              From document to data entry in seconds. No human touchpoints.
-            </p>
-          </div>
-        </SectionReveal>
-
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {STEPS.map((step, i) => (
-            <SectionReveal key={step.num} delay={i * 0.08}>
-              <TiltCard className="group h-full rounded-2xl glass-panel relative p-6 transition-all duration-300">
-                <div className="mb-4 flex items-start justify-between">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--color-surface-raised)] text-[var(--color-text-secondary)] transition-colors group-hover:bg-[var(--color-accent)] group-hover:text-white">
-                    {step.icon}
-                  </div>
-                  <span className="text-3xl font-bold text-[var(--color-border)] font-[family-name:var(--font-display)] transition-colors group-hover:text-[var(--color-accent)]/15">
-                    {step.num}
-                  </span>
-                </div>
-                <h3 className="mb-2 text-base font-semibold font-[family-name:var(--font-display)]">
-                  {step.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
-                  {step.desc}
-                </p>
-              </TiltCard>
-            </SectionReveal>
-          ))}
+    <div className="relative mx-auto w-full max-w-[1200px]">
+      <SectionReveal>
+        <div className="mb-10 max-w-3xl">
+          <SectionLabel number="05" align="left">
+            How we work
+          </SectionLabel>
+          <h2
+            className="mt-3 font-[family-name:var(--font-editorial)] font-normal leading-[1.05] tracking-[-0.02em] text-[color:var(--color-cream)]"
+            style={{ fontSize: "clamp(1.9rem, 1.3rem + 2.2vw, 3rem)" }}
+          >
+            Four phases. One embedded team.
+          </h2>
+          <p
+            className="mt-4 max-w-2xl text-[color:var(--color-cream-muted)]"
+            style={{ fontSize: "1rem", lineHeight: 1.55 }}
+          >
+            Every distributor is different — which is why off-the-shelf fails
+            here. We pair with one person who knows how the work actually runs,
+            and build around the nuance that matters.
+          </p>
         </div>
+      </SectionReveal>
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {STEPS.map((step, i) => (
+          <SectionReveal key={step.num} delay={i * 0.05}>
+            <div className="lg relative flex h-full flex-col rounded-2xl p-6">
+              <div className="flex items-baseline justify-between">
+                <span className="font-mono tabular text-[11px] text-[color:var(--color-cream-subtle)]">
+                  {step.num}
+                </span>
+                <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-[color:var(--color-cream-muted)]">
+                  {step.kicker}
+                </span>
+              </div>
+              <h3
+                className="mt-5 font-[family-name:var(--font-editorial)] font-normal leading-tight tracking-[-0.01em] text-[color:var(--color-cream)]"
+                style={{ fontSize: "1.35rem" }}
+              >
+                {step.title}
+              </h3>
+              <p
+                className="mt-2.5 text-[color:var(--color-cream-muted)]"
+                style={{ fontSize: "0.9rem", lineHeight: 1.5 }}
+              >
+                {step.desc}
+              </p>
+            </div>
+          </SectionReveal>
+        ))}
       </div>
-    </section>
+    </div>
   );
 }

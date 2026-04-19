@@ -1,7 +1,5 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface SectionRevealProps {
@@ -11,42 +9,22 @@ interface SectionRevealProps {
   direction?: "up" | "left" | "right";
 }
 
+/**
+ * CSS-based reveal. Previously used framer-motion `useInView` but that
+ * was unreliable inside the custom vertical slide-pager viewport.
+ * Now renders on mount with a CSS keyframe + delay — works everywhere.
+ */
 export function SectionReveal({
   children,
   className,
   delay = 0,
-  direction = "up",
 }: SectionRevealProps) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-
-  const offsets = {
-    up: { y: 40, x: 0 },
-    left: { y: 0, x: -40 },
-    right: { y: 0, x: 40 },
-  };
-
   return (
-    <motion.div
-      ref={ref}
-      initial={{
-        opacity: 0,
-        y: offsets[direction].y,
-        x: offsets[direction].x,
-      }}
-      animate={
-        isInView
-          ? { opacity: 1, y: 0, x: 0 }
-          : { opacity: 0, y: offsets[direction].y, x: offsets[direction].x }
-      }
-      transition={{
-        duration: 0.7,
-        delay,
-        ease: [0.16, 1, 0.3, 1],
-      }}
-      className={cn(className)}
+    <div
+      className={cn("editorial-rise", className)}
+      style={{ animationDelay: `${delay}s` }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

@@ -1,115 +1,187 @@
 "use client";
 
 import { SectionReveal } from "@/components/ui/SectionReveal";
-import { TiltCard } from "@/components/ui/TiltCard";
+import { SectionLabel } from "@/components/ui/SectionLabel";
 
-const CAPS = [
+/**
+ * Capabilities — unified "custom automation for industrial distribution" story.
+ *
+ * Left: the flagship, shipped in production at CX Lighting. A weighted
+ * hero card with its own stats strip and the specific exceptions we handle.
+ *
+ * Right: a quieter "what else we've built / can build" list — prior work
+ * and shape of future engagements. Reads as one studio's practice, not a
+ * catalog of four competing products.
+ */
+
+const PRIOR_WORK = [
   {
-    title: "Shipment Receiving",
-    desc: "PDF packing slip to verified ERP entry. Zero clicks required.",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="3" width="16" height="14" rx="2" />
-        <path d="M2 7h16" />
-        <path d="M6 11h3M6 14h5" />
-      </svg>
-    ),
+    title: "Ship-date intelligence",
+    blurb:
+      "Agents that log into vendor portals, pull ship-date changes, and reconcile them against the ERP — replacing the morning chase.",
   },
   {
-    title: "Purchase Orders",
-    desc: "Supplier quotes parsed and POs created inside your ERP automatically.",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M4 3h12a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1z" />
-        <path d="M7 7h6M7 10h6M7 13h4" />
-      </svg>
-    ),
+    title: "Exception workflows",
+    blurb:
+      "Breakouts, RGAs, short-ships, credit-memo tracking. The cases your team handles by hand today, built to your specific process.",
   },
   {
-    title: "Invoice Processing",
-    desc: "3-way matching, AP entry, and reconciliation on autopilot.",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="2" width="14" height="16" rx="2" />
-        <path d="M7 6h6M7 9.5h6M7 13h3" />
-        <path d="M13 13l1 1 2-2.5" />
-      </svg>
-    ),
+    title: "Your manual process",
+    blurb:
+      "If a repetitive step eats hours every week and no SaaS has touched it, we'll scope it in 30 minutes and tell you honestly if we can automate it.",
   },
-  {
-    title: "Order Entry",
-    desc: "Customer POs converted to sales orders without human input.",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M10 2v16M2 10h16" />
-        <rect x="4" y="4" width="12" height="12" rx="2" />
-      </svg>
-    ),
-  },
-  {
-    title: "Cross-System Sync",
-    desc: "ERP to sheets, CRM to ERP, vendor portals — bidirectionally connected.",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M4 8l4-4 4 4" />
-        <path d="M8 4v12" />
-        <path d="M16 12l-4 4-4-4" />
-        <path d="M12 16V4" />
-      </svg>
-    ),
-  },
-  {
-    title: "Data Verification",
-    desc: "AI audits every entry against source documents in real-time.",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="10" cy="10" r="7" />
-        <path d="M7 10l2 2 4-4" />
-      </svg>
-    ),
-  },
+];
+
+const RECEIVING_STATS = [
+  { n: "1,283", label: "lines / week" },
+  { n: "99.4%",  label: "first-pass match" },
+  { n: "127ms",  label: "sheet sync" },
+];
+
+const RECEIVING_HANDLES = [
+  "Vendor alias matching (Con-Tech ↔ Leviton)",
+  "Quantity decomposition across slips",
+  "Breakout / replacement / partial ship",
+  "Google Sheets bookkeeping sync",
 ];
 
 export function Capabilities() {
   return (
-    <section id="capabilities">
-      <div className="fade-to-light h-24 md:h-32" />
-      <div className="zone-light py-20 md:py-28">
-        <div className="mx-auto max-w-6xl px-6">
-          <SectionReveal>
-            <div className="mb-16 text-center">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.15em] text-[#495057]">
-                Capabilities
-              </p>
-              <h2 className="text-3xl font-bold tracking-tight font-[family-name:var(--font-display)] text-[#1a1a2e] md:text-4xl">
-                What we automate
-              </h2>
-              <p className="mt-3 text-[#495057]">
-                If your team does it in a browser or ERP, we can automate it.
-              </p>
-            </div>
-          </SectionReveal>
-
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {CAPS.map((cap, i) => (
-              <SectionReveal key={cap.title} delay={i * 0.06}>
-                <TiltCard className="group h-full rounded-2xl glass-dark relative p-6 transition-all duration-300">
-                  <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-black/[0.04] text-[#495057] transition-colors group-hover:bg-[#1a1a2e] group-hover:text-white">
-                    {cap.icon}
-                  </div>
-                  <h4 className="mb-1.5 text-[15px] font-semibold font-[family-name:var(--font-display)] text-[#1a1a2e]">
-                    {cap.title}
-                  </h4>
-                  <p className="text-sm leading-relaxed text-[#495057]">
-                    {cap.desc}
-                  </p>
-                </TiltCard>
-              </SectionReveal>
-            ))}
-          </div>
+    <div className="relative mx-auto w-full max-w-[1200px]">
+      <SectionReveal>
+        <div className="mb-10 max-w-3xl">
+          <SectionLabel number="04" align="left">
+            What we build
+          </SectionLabel>
+          <h2
+            className="mt-3 font-[family-name:var(--font-editorial)] font-normal leading-[1.05] tracking-[-0.02em] text-[color:var(--color-cream)]"
+            style={{ fontSize: "clamp(1.9rem, 1.3rem + 2.2vw, 3rem)" }}
+          >
+            Custom automation, built for one industry.
+          </h2>
+          <p
+            className="mt-4 max-w-2xl text-[color:var(--color-cream-muted)]"
+            style={{ fontSize: "1rem", lineHeight: 1.55 }}
+          >
+            Every engagement is bespoke. We've shipped one system into
+            production already; the rest of our practice is scoped against the
+            manual work buried inside a distributor's ERP.
+          </p>
         </div>
+      </SectionReveal>
+
+      <div className="grid gap-5 md:grid-cols-[1.35fr_1fr]">
+        {/* Flagship — Receiving Automation, already live */}
+        <SectionReveal delay={0.08}>
+          <div className="lg-raised relative h-full rounded-2xl p-8 md:p-9">
+            <div className="flex items-center justify-between">
+              <span className="mono-label">Flagship · in production</span>
+              <span className="inline-flex items-center gap-1.5 text-[11px] text-[color:var(--color-ember-core)]">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="pulse-ring absolute inline-flex h-full w-full rounded-full bg-[color:var(--color-ember-core)]" />
+                  <span className="inline-flex h-1.5 w-1.5 rounded-full bg-[color:var(--color-ember-core)]" />
+                </span>
+                running daily
+              </span>
+            </div>
+
+            <h3
+              className="mt-5 font-[family-name:var(--font-editorial)] font-normal leading-tight tracking-[-0.01em] text-[color:var(--color-cream)]"
+              style={{ fontSize: "clamp(1.5rem, 1.15rem + 1vw, 2rem)" }}
+            >
+              Receiving Automation.
+            </h3>
+            <p
+              className="mt-3 max-w-lg text-[color:var(--color-cream-muted)]"
+              style={{ fontSize: "0.95rem", lineHeight: 1.55 }}
+            >
+              Packing slips land in a watched folder, get parsed by AI, matched
+              against open POs, and entered into the ERP end-to-end. Exceptions
+              get routed; the tracking sheet updates itself.
+            </p>
+
+            {/* Stats strip */}
+            <div className="mt-6 grid grid-cols-3 gap-4 border-t border-[color:var(--color-hairline)] pt-5">
+              {RECEIVING_STATS.map((s) => (
+                <div key={s.label}>
+                  <div
+                    className="font-[family-name:var(--font-editorial)] leading-none tabular text-[color:var(--color-cream)]"
+                    style={{ fontSize: "1.45rem" }}
+                  >
+                    {s.n}
+                  </div>
+                  <div className="mt-1.5 text-[11px] font-medium uppercase tracking-[0.14em] text-[color:var(--color-cream-subtle)]">
+                    {s.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Exception handling list */}
+            <ul className="mt-6 grid gap-2.5 sm:grid-cols-2">
+              {RECEIVING_HANDLES.map((h) => (
+                <li
+                  key={h}
+                  className="flex items-start gap-2.5 text-[13px] text-[color:var(--color-cream-dim)]"
+                >
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    className="mt-0.5 flex-shrink-0 text-[color:var(--color-cream-muted)]"
+                  >
+                    <path
+                      d="M3 7l3 3 5-6"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  {h}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </SectionReveal>
+
+        {/* Secondary — "and we've also / we also build" */}
+        <SectionReveal delay={0.14}>
+          <div className="lg relative flex h-full flex-col rounded-2xl p-8 md:p-9">
+            <span className="mono-label">Practice · scoped per engagement</span>
+
+            <h3
+              className="mt-5 font-[family-name:var(--font-editorial)] font-normal leading-tight tracking-[-0.01em] text-[color:var(--color-cream)]"
+              style={{ fontSize: "clamp(1.25rem, 1rem + 0.6vw, 1.6rem)" }}
+            >
+              Adjacent builds.
+            </h3>
+            <p
+              className="mt-2 text-[color:var(--color-cream-muted)]"
+              style={{ fontSize: "0.92rem", lineHeight: 1.5 }}
+            >
+              Prior and active work across the same operational layer.
+            </p>
+
+            <ul className="mt-5 flex flex-1 flex-col divide-y divide-[color:var(--color-hairline-dim)]">
+              {PRIOR_WORK.map((p) => (
+                <li key={p.title} className="py-4 first:pt-0 last:pb-0">
+                  <div className="text-[14px] font-medium text-[color:var(--color-cream)]">
+                    {p.title}
+                  </div>
+                  <div
+                    className="mt-1.5 text-[color:var(--color-cream-muted)]"
+                    style={{ fontSize: "0.88rem", lineHeight: 1.5 }}
+                  >
+                    {p.blurb}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </SectionReveal>
       </div>
-      <div className="fade-to-dark h-24 md:h-32" />
-    </section>
+    </div>
   );
 }

@@ -1,121 +1,848 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════════════
+   OperPath — editorial atmospheric system
+   Dark-only. Warm cream type. Muted mint blueprint. Ember glow.
+   ═══════════════════════════════════════════════════════════════════ */
+
 @theme {
-  --color-bg: #131416;
-  --color-surface: #1a1c1f;
-  --color-surface-raised: #1e2024;
-  --color-border: rgba(255, 255, 255, 0.07);
-  --color-border-subtle: rgba(255, 255, 255, 0.04);
+  /* ── Night surface — deep, cool, with a faint green-black tilt like the
+       SigmaAi reference. Not pure neutral, not cyan. Sits between #0C1110 and
+       #141A18 so the mint blueprint reads as an accent, not a clash. ── */
+  --color-sky-deep:     oklch(13% 0.008 175);    /* ~#0E1413 — primary canvas */
+  --color-sky-mid:      oklch(16% 0.010 175);    /* raised surface */
+  --color-ground-warm:  oklch(15% 0.009 175);    /* horizon — same family */
+  --color-vignette:     oklch(8%  0.006 175);    /* corner fall-off */
 
-  --color-text: #f0f0f2;
-  --color-text-secondary: #a0a4ad;
-  --color-text-muted: #5c6068;
+  /* legacy ink aliases map to new sky tokens */
+  --color-ink:          var(--color-sky-deep);
+  --color-ink-raised:   var(--color-sky-mid);
+  --color-ink-sunken:   var(--color-vignette);
+  --color-night-top:    var(--color-sky-deep);
+  --color-night-mid:    var(--color-sky-mid);
+  --color-night-horizon:var(--color-sky-mid);
+  --color-night-ground: var(--color-ground-warm);
 
-  --color-accent: #f0f0f2;
-  --color-accent-light: #d0d2d8;
-  --color-accent-wash: rgba(255, 255, 255, 0.05);
-  --color-accent-subtle: rgba(255, 255, 255, 0.08);
+  /* ── Type: warm editorial ivory — matches the reference's paper-cream, not
+       clinical near-white. Italic / accent tilts toward the ember family. ── */
+  --color-cream:        oklch(93% 0.030 85);     /* warm ivory headline */
+  --color-cream-italic: oklch(74% 0.150 45);     /* burnt-orange italic accent */
+  --color-cream-dim:    oklch(86% 0.025 85);
+  --color-cream-muted:  oklch(68% 0.020 85);     /* body secondary */
+  --color-cream-subtle: oklch(50% 0.015 85);     /* hairline labels */
 
-  --font-display: "Montserrat", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "Montserrat", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  /* legacy fg aliases */
+  --color-fg:           var(--color-cream);
+  --color-fg-secondary: var(--color-cream-dim);
+  --color-fg-muted:     var(--color-cream-muted);
+  --color-fg-subtle:    var(--color-cream-subtle);
+
+  /* paper (kept for any light-zone remnants — mostly unused now) */
+  --color-paper:        oklch(92% 0.02 85);
+  --color-paper-raised: oklch(88% 0.025 85);
+  --color-paper-sunken: oklch(85% 0.03 85);
+  --color-paper-ink:    oklch(16% 0.022 240);
+
+  /* ── Hairlines ─────────────────────────────────────────────── */
+  --color-hairline:         oklch(92% 0.03 85 / 0.08);
+  --color-hairline-bright:  oklch(92% 0.03 85 / 0.18);
+  --color-hairline-dim:     oklch(92% 0.03 85 / 0.04);
+
+  /* ── Blueprint accent — muted mint / sage green, matches reference grid & logo.
+       Hue 160, low chroma so it reads as paper-tint, not neon. ── */
+  --color-blueprint:        oklch(82% 0.055 160);
+  --color-blueprint-strong: oklch(88% 0.070 160);
+  --color-blueprint-dim:    oklch(82% 0.055 160 / 0.45);
+  --color-blueprint-wash:   oklch(82% 0.055 160 / 0.08);
+  --color-blueprint-soft:   oklch(82% 0.055 160 / 0.22);
+  --color-blueprint-glow:   oklch(82% 0.055 160 / 0.32);
+  --color-reg-node:         oklch(86% 0.045 160);
+
+  /* accent aliases — anything labeled "accent" uses blueprint */
+  --color-accent:        var(--color-blueprint);
+  --color-accent-strong: var(--color-blueprint-strong);
+  --color-accent-dim:    var(--color-blueprint-dim);
+  --color-accent-wash:   var(--color-blueprint-wash);
+  --color-accent-soft:   var(--color-blueprint-soft);
+  --color-accent-glow:   var(--color-blueprint-glow);
+
+  /* ── Ember — the warm burnt-orange glow from the reference. Used on headline
+         gradient tail, campfire puddle, status pulse. Hue 42, high chroma. ── */
+  --color-ember-core:    oklch(78% 0.180 42);
+  --color-ember:         oklch(68% 0.175 42);
+  --color-ember-strong:  oklch(72% 0.200 40);
+  --color-ember-haze:    oklch(55% 0.140 40);
+  --color-ember-wash:    oklch(68% 0.175 42 / 0.12);
+  --color-ember-soft:    oklch(68% 0.175 42 / 0.25);
+  --color-ember-glow:    oklch(68% 0.175 42 / 0.35);
+  --color-ember-deep:    oklch(48% 0.120 40);
+
+  /* ── Signal ─────────────────────────────────────────────── */
+  --color-signal-amber: oklch(82% 0.15 75);
+  --color-signal-red:   oklch(68% 0.2  25);
+
+  /* ── Typography — Fraunces for editorial display (matches reference's
+       high-contrast Canela/Tiempos feel via SOFT + opsz axes). Instrument
+       kept as softer alternative. ── */
+  --font-display:   var(--font-fraunces), "Iowan Old Style", Charter, Georgia, serif;
+  --font-editorial: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-serif-alt: var(--font-instrument), Georgia, serif;
+  --font-sans:      var(--font-geist), ui-sans-serif, -apple-system, "Segoe UI", sans-serif;
+  --font-mono:      var(--font-jetbrains), "Berkeley Mono", ui-monospace, monospace;
+
+  /* Fluid type scale — big editorial */
+  --step--2: clamp(0.6875rem, 0.65rem + 0.15vw, 0.75rem);
+  --step--1: clamp(0.8125rem, 0.78rem + 0.15vw, 0.875rem);
+  --step-0:  clamp(0.9375rem, 0.9rem + 0.2vw, 1rem);
+  --step-1:  clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  --step-2:  clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --step-3:  clamp(1.75rem, 1.5rem + 1.25vw, 2.5rem);
+  --step-4:  clamp(2.5rem, 2rem + 2.5vw, 4rem);
+  --step-5:  clamp(3.25rem, 2.5rem + 4vw, 5.75rem);
+  --step-6:  clamp(4rem, 2.5rem + 6vw, 7.5rem);
+
+  /* ── Motion curves ───────────────────────────────────────── */
+  --ease-out-expo:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart:   cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-back:    cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
+  --dur-1: 180ms;
+  --dur-2: 320ms;
+  --dur-3: 520ms;
+  --dur-4: 800ms;
+
+  /* ── Radii ───────────────────────────────────────────────── */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
+  --radius-pill: 999px;
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   Base
+   ═══════════════════════════════════════════════════════════════════ */
 @layer base {
   *, *::before, *::after { box-sizing: border-box; }
+
+  :root {
+    color-scheme: dark;
+    --zone-bg: var(--color-sky-deep);
+    --zone-raised: var(--color-sky-mid);
+    --zone-fg: var(--color-cream);
+    --zone-fg-secondary: var(--color-cream-dim);
+    --zone-fg-muted: var(--color-cream-muted);
+    --zone-hairline: var(--color-hairline);
+    --zone-hairline-bright: var(--color-hairline-bright);
+    --zone-hairline-dim: var(--color-hairline-dim);
+  }
+
   html {
-    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
   }
+
   body {
-    font-family: var(--font-body);
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    overflow-x: hidden;
+    /* Sans body for modern-executive feel. The display serif is reserved for
+       headlines only — used surgically, not everywhere. */
+    font-family: var(--font-sans);
+    font-size: var(--step-0);
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+    background: var(--color-sky-deep);
+    color: var(--color-cream);
+    font-feature-settings: "ss01", "liga", "calt";
   }
+
   ::selection {
-    background-color: rgba(255, 255, 255, 0.15);
-    color: #fff;
+    background-color: var(--color-ember);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--color-ink),
+      0 0 0 4px var(--color-ember);
+    border-radius: 6px;
+  }
+
+  code, kbd, samp, .font-mono, table, [data-numeric], .tabular {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum", "zero";
+  }
+
+  .serif-italic,
+  .serif {
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-weight: 400;
+    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 0;
+  }
+
+  /* Editorial display — Fraunces dialed to mimic Canela/Tiempos headline.
+     opsz 144 boosts stroke contrast; SOFT 100 softens terminals; WONK off
+     keeps it restrained. Apply anywhere you want the reference's cover-page
+     serif feel. */
+  .editorial-display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 0;
+    letter-spacing: -0.02em;
+  }
+  .editorial-display em,
+  .editorial-display .em {
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
+  }
+
+  /* Warm headline gradient: ivory → ember, like the reference's
+     "Read the research. Skip the noise." treatment. */
+  .text-editorial-gradient {
+    background-image: linear-gradient(
+      100deg,
+      var(--color-cream) 0%,
+      var(--color-cream) 35%,
+      oklch(82% 0.110 60) 65%,
+      var(--color-ember-core) 100%
+    );
+    -webkit-background-clip: text;
+            background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  img { user-drag: none; -webkit-user-drag: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Zone (kept mostly dark — light zone is legacy fallback)
+   ═══════════════════════════════════════════════════════════════════ */
+.zone-dark {
+  --zone-bg: var(--color-ink);
+  --zone-raised: var(--color-ink-raised);
+  --zone-fg: var(--color-cream);
+  --zone-fg-secondary: var(--color-cream-dim);
+  --zone-fg-muted: var(--color-cream-muted);
+  --zone-hairline: var(--color-hairline);
+  --zone-hairline-bright: var(--color-hairline-bright);
+  --zone-hairline-dim: var(--color-hairline-dim);
+  color: var(--color-cream);
+}
+.zone-light {
+  --zone-bg: var(--color-paper);
+  --zone-raised: var(--color-paper-raised);
+  --zone-fg: var(--color-paper-ink);
+  --zone-fg-secondary: oklch(30% 0.02 240);
+  --zone-fg-muted: oklch(46% 0.02 240);
+  --zone-hairline: oklch(16% 0.02 240 / 0.1);
+  --zone-hairline-bright: oklch(16% 0.02 240 / 0.22);
+  --zone-hairline-dim: oklch(16% 0.02 240 / 0.04);
+  color: var(--color-paper-ink);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Hairlines
+   ═══════════════════════════════════════════════════════════════════ */
+.hairline     { border: 1px solid var(--zone-hairline); }
+.hairline-t   { border-top: 1px solid var(--zone-hairline); }
+.hairline-b   { border-bottom: 1px solid var(--zone-hairline); }
+
+.rule-dot {
+  position: relative;
+  height: 1px;
+  background-image: radial-gradient(circle, var(--zone-hairline-bright) 1px, transparent 1px);
+  background-size: 8px 1px;
+  background-repeat: repeat-x;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Liquid glass — retuned for cream/ember, not electric mint
+   ═══════════════════════════════════════════════════════════════════ */
+.lg {
+  position: relative;
+  isolation: isolate;
+  background: color-mix(in oklch, var(--color-cream) 4%, transparent);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border: 1px solid transparent;
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.14),
+    inset 0 0 0 1px oklch(100% 0 0 / 0.04),
+    inset 0 -1px 0 oklch(0% 0 0 / 0.25),
+    0 1px 2px oklch(0% 0 0 / 0.25),
+    0 24px 48px -14px oklch(0% 0 0 / 0.5);
+  transition: all var(--dur-2) var(--ease-out-expo);
+}
+.lg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    oklch(100% 0 0 / 0.1) 0%,
+    oklch(100% 0 0 / 0) 30%,
+    oklch(100% 0 0 / 0) 70%,
+    oklch(100% 0 0 / 0.08) 100%
+  );
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+.lg > * { position: relative; z-index: 1; }
+
+.lg-raised {
+  position: relative;
+  isolation: isolate;
+  background: color-mix(in oklch, var(--color-cream) 5%, transparent);
+  backdrop-filter: blur(28px) saturate(1.6);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  border: 1px solid transparent;
+  box-shadow:
+    inset 0 1.5px 0 oklch(100% 0 0 / 0.22),
+    inset 0 0 0 1px oklch(100% 0 0 / 0.06),
+    inset 0 -1px 0 oklch(0% 0 0 / 0.35),
+    0 2px 4px oklch(0% 0 0 / 0.3),
+    0 48px 96px -24px oklch(0% 0 0 / 0.7);
+}
+.lg-raised::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg,
+    oklch(100% 0 0 / 0.14) 0%,
+    transparent 35%,
+    transparent 65%,
+    oklch(100% 0 0 / 0.08) 100%);
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+.lg-raised > * { position: relative; z-index: 1; }
+
+.lg-chip {
+  position: relative;
+  background: color-mix(in oklch, var(--color-cream) 5%, transparent);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  border: 1px solid transparent;
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.18),
+    inset 0 0 0 1px oklch(100% 0 0 / 0.05),
+    inset 0 -1px 0 oklch(0% 0 0 / 0.18),
+    0 6px 14px -6px oklch(0% 0 0 / 0.4);
+}
+
+/* Big glass pill used for logo reveal — matches SigmaAi centered brand plate */
+.lg-pill-hero {
+  position: relative;
+  isolation: isolate;
+  background: color-mix(in oklch, var(--color-cream) 5%, transparent);
+  backdrop-filter: blur(38px) saturate(1.3);
+  -webkit-backdrop-filter: blur(38px) saturate(1.3);
+  border: 1px solid oklch(92% 0.03 85 / 0.18);
+  box-shadow:
+    inset 0 1.5px 0 oklch(100% 0 0 / 0.28),
+    inset 0 0 0 1px oklch(100% 0 0 / 0.06),
+    inset 0 -1px 0 oklch(0% 0 0 / 0.35),
+    0 4px 8px oklch(0% 0 0 / 0.25),
+    0 60px 120px -24px oklch(0% 0 0 / 0.7);
+}
+.lg-pill-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(160deg,
+    oklch(100% 0 0 / 0.16) 0%,
+    transparent 40%,
+    transparent 60%,
+    oklch(100% 0 0 / 0.08) 100%);
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+.lg-pill-hero > * { position: relative; z-index: 1; }
+
+/* Legacy alias so existing section code keeps rendering */
+.glass-panel, .glass { composes: lg; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Buttons
+   ═══════════════════════════════════════════════════════════════════ */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.125rem;
+  font-family: var(--font-sans);
+  font-size: var(--step-0);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  line-height: 1;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  user-select: none;
+  isolation: isolate;
+  transition: all var(--dur-2) var(--ease-out-expo);
+  overflow: hidden;
+}
+.btn svg { flex-shrink: 0; }
+.btn-arrow { transition: transform var(--dur-2) var(--ease-out-expo); }
+.btn:hover .btn-arrow { transform: translateX(3px); }
+.btn:active { transform: translateY(0.5px) scale(0.99); }
+
+/* Primary — warm cream filled, ember shadow (hero CTA) */
+.btn-primary {
+  color: var(--color-ink);
+  background: linear-gradient(180deg, var(--color-cream), var(--color-cream-dim));
+  border: 1px solid oklch(92% 0.03 85 / 0.6);
+  box-shadow:
+    inset 0 1.5px 0 oklch(100% 0 0 / 0.6),
+    inset 0 -1px 0 oklch(40% 0.08 85 / 0.35),
+    0 2px 4px oklch(0% 0 0 / 0.25),
+    0 10px 24px -6px oklch(0% 0 0 / 0.35),
+    0 24px 48px -14px oklch(0% 0 0 / 0.6);
+}
+.btn-primary:hover {
+  box-shadow:
+    inset 0 1.5px 0 oklch(100% 0 0 / 0.75),
+    inset 0 -1px 0 oklch(40% 0.08 85 / 0.4),
+    0 2px 4px oklch(0% 0 0 / 0.28),
+    0 14px 32px -6px oklch(0% 0 0 / 0.5),
+    0 32px 64px -14px oklch(0% 0 0 / 0.65);
+}
+
+.btn-ink {
+  color: var(--color-cream);
+  background: linear-gradient(180deg, oklch(20% 0.025 240), oklch(14% 0.02 240));
+  border: 1px solid oklch(0% 0 0 / 0.45);
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.12),
+    inset 0 -1px 0 oklch(0% 0 0 / 0.5),
+    0 2px 4px oklch(0% 0 0 / 0.22),
+    0 14px 32px -8px oklch(0% 0 0 / 0.45);
+}
+
+.btn-ghost {
+  color: var(--color-cream);
+  background: color-mix(in oklch, var(--color-cream) 4%, transparent);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid oklch(92% 0.03 85 / 0.12);
+  box-shadow:
+    inset 0 1px 0 oklch(100% 0 0 / 0.14),
+    inset 0 -1px 0 oklch(0% 0 0 / 0.18),
+    0 10px 24px -8px oklch(0% 0 0 / 0.3);
+}
+.btn-ghost:hover {
+  background: color-mix(in oklch, var(--color-cream) 8%, transparent);
+  border-color: oklch(92% 0.03 85 / 0.22);
+}
+
+/* Sheen sweep */
+.btn-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(105deg,
+    transparent 30%,
+    oklch(100% 0 0 / 0.22) 48%,
+    oklch(100% 0 0 / 0.32) 50%,
+    oklch(100% 0 0 / 0.22) 52%,
+    transparent 70%);
+  transform: translateX(-130%);
+  transition: transform 0.9s var(--ease-out-expo);
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+.btn-sheen:hover::after { transform: translateX(130%); }
+
+.btn-lg { padding: 0.95rem 1.5rem; font-size: var(--step-1); border-radius: var(--radius-lg); }
+.btn-sm { padding: 0.55rem 0.85rem; font-size: var(--step--1); border-radius: var(--radius-sm); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Kbd
+   ═══════════════════════════════════════════════════════════════════ */
+.kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 1;
+  border-radius: 4px;
+  color: var(--color-cream-muted);
+  background: color-mix(in oklch, var(--color-cream) 4%, transparent);
+  border: 1px solid var(--color-hairline);
+  box-shadow: 0 1px 0 var(--color-hairline-dim);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Motion primitives
+   ═══════════════════════════════════════════════════════════════════ */
+@keyframes marquee-x {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: inline-flex;
+  animation: marquee-x 48s linear infinite;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.blink { animation: blink 1s step-end infinite; }
+
+@keyframes pulse-ring {
+  0%   { transform: scale(1);   opacity: 0.55; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+.pulse-ring { animation: pulse-ring 1.6s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+@keyframes ember-breath {
+  0%, 100% { opacity: 0.75; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.04); }
+}
+.ember-breath { animation: ember-breath 6s ease-in-out infinite; }
+
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0.25; }
+  50%      { opacity: 0.9; }
+}
+
+@keyframes editorial-rise {
+  0%   { opacity: 0; transform: translateY(24px); filter: blur(6px); }
+  100% { opacity: 1; transform: translateY(0);    filter: blur(0); }
+}
+.editorial-rise { animation: editorial-rise 1s var(--ease-out-expo) both; }
+
+@keyframes logo-hover {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.logo-hover { animation: logo-hover 5s ease-in-out infinite; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Ember / volumetric / aurora (reuse by sections)
+   ═══════════════════════════════════════════════════════════════════ */
+.ember-puddle {
+  position: absolute;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 50% 45% at 50% 55%,
+    var(--color-ember-glow) 0%,
+    oklch(70% 0.19 42 / 0.18) 22%,
+    transparent 60%
+  );
+  filter: blur(30px);
+  mix-blend-mode: screen;
+}
+
+.vol-light {
+  position: absolute;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 60% 70% at center,
+    var(--color-blueprint-glow) 0%,
+    transparent 62%
+  );
+  filter: blur(36px);
+  mix-blend-mode: screen;
+  opacity: 0.45;
+}
+
+.aurora {
+  position: absolute;
+  inset: -30%;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 35% 25% at 18% 70%, oklch(70% 0.19 42 / 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 25% at 82% 35%, var(--color-blueprint-glow) 0%, transparent 60%);
+  filter: blur(60px);
+  mix-blend-mode: screen;
+  opacity: 0.7;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Grain & starfield textures (layered over everything)
+   ═══════════════════════════════════════════════════════════════════ */
+.film-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.3' numOctaves='3' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+  opacity: 0.09;
+  mix-blend-mode: overlay;
+  z-index: 3;
+}
+
+.grit::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='2.2' numOctaves='2' seed='9' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.4 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+}
+
+.dot-field {
+  background-image: radial-gradient(circle, var(--color-hairline-bright) 0.7px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(ellipse 70% 60% at center, black 10%, transparent 75%);
+}
+
+.grid-lines {
+  background-image:
+    linear-gradient(to right, var(--color-hairline) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-hairline) 1px, transparent 1px);
+  background-size: 88px 88px;
+  mask-image: radial-gradient(ellipse 80% 60% at center, black 20%, transparent 80%);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Blueprint — architectural overlay
+   ═══════════════════════════════════════════════════════════════════ */
+.blueprint-stroke {
+  stroke: var(--color-blueprint);
+  stroke-width: 1;
+  fill: none;
+  opacity: 0.55;
+}
+.blueprint-node {
+  fill: var(--color-blueprint);
+  opacity: 0.75;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Spotlight / border-gradient
+   ═══════════════════════════════════════════════════════════════════ */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    320px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in oklch, var(--color-ember) 12%, transparent) 0%,
+    transparent 45%
+  );
+  opacity: 0;
+  transition: opacity var(--dur-3) var(--ease-out-expo);
+  pointer-events: none;
+  z-index: -1;
+}
+.spotlight:hover::before { opacity: 1; }
+
+.border-gradient {
+  position: relative;
+  isolation: isolate;
+}
+.border-gradient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--angle, 0deg) at 50% 50%,
+    transparent 0deg,
+    var(--color-blueprint-soft) 60deg,
+    var(--color-hairline-bright) 120deg,
+    transparent 220deg
+  );
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0;
+  transition: opacity var(--dur-3) var(--ease-out-expo);
+  pointer-events: none;
+}
+.border-gradient:hover::before { opacity: 1; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Editorial utilities
+   ═══════════════════════════════════════════════════════════════════ */
+.squiggle-under {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12' preserveAspectRatio='none'><path d='M0 7 Q15 2 30 7 T60 7 T90 7 T120 7' stroke='%23d6c393' stroke-width='2' fill='none' stroke-linecap='round'/></svg>");
+  background-position: 0 98%;
+  background-repeat: no-repeat;
+  background-size: 100% 0.4em;
+  padding-bottom: 0.15em;
+}
+
+.mono-label {
+  /* Modern eyebrow label — sans, uppercase, spaced. No italic, no small-caps. */
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-cream-muted);
+}
+
+.chapter-kicker-num {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: 30px;
+  line-height: 1;
+  color: var(--color-cream);
+  letter-spacing: -0.02em;
+}
+
+/* Buttons, UI chrome, numeric data keep the sans/mono families explicitly. */
+.font-sans-ui { font-family: var(--font-sans); }
+.font-mono-ui { font-family: var(--font-mono); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Wheel-scroll pager — slides live on the surface of a vertical drum.
+   Each .slide element receives --wheel-* custom properties from the
+   SlidePager scroll handler. The inner .slide-wheel does the 3D work.
+   ═══════════════════════════════════════════════════════════════════ */
+.slide-viewport {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overscroll-behavior-y: contain;
+  scrollbar-width: none;
+  perspective: 1800px;
+  perspective-origin: 50% 50%;
+}
+.slide-viewport::-webkit-scrollbar { display: none; }
+.slide-track {
+  position: relative;
+  transform-style: preserve-3d;
+}
+.slide {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  overflow: visible;
+  transform-style: preserve-3d;
+}
+
+/* The wheel surface: driven by the 5 CSS vars set from JS. */
+.slide-wheel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 50%;
+  transform:
+    translate3d(0, var(--wheel-ty, 0), var(--wheel-tz, 0))
+    rotateX(var(--wheel-rx, 0));
+  opacity: var(--wheel-op, 1);
+  filter: blur(var(--wheel-blur, 0));
+  will-change: transform, opacity, filter;
+  transition:
+    filter 0.25s linear,
+    opacity 0.25s linear;
+  backface-visibility: hidden;
+}
+
+@media (max-width: 767px) {
+  /* Mobile: no wheel, no snap — just stacked slides. */
+  .slide {
+    height: auto;
+    min-height: 100vh;
+    scroll-snap-align: none;
+  }
+  .slide-viewport {
+    perspective: none;
+    scroll-snap-type: none;
+  }
+  .slide-wheel {
+    transform: none;
+    opacity: 1;
+    filter: none;
   }
 }
 
-html { scroll-padding-top: 80px; }
-.magnetic-wrap { display: inline-flex; }
-
-/* ─── Light zone ─── */
-.zone-light {
-  background: #fafbfc;
-  color: #1a1a2e;
-}
-.zone-light ::selection {
-  background-color: rgba(0, 0, 0, 0.08);
-  color: #1a1a2e;
+@media (prefers-reduced-motion: reduce) {
+  .slide-wheel {
+    transform: none;
+    opacity: 1;
+    filter: none;
+  }
 }
 
-/* Transitions */
-.fade-to-dark {
-  background: linear-gradient(to bottom, #fafbfc, #131416);
+/* Minimal right-side dot rail — only indicator of position. */
+.dot-rail {
+  position: fixed;
+  top: 50%;
+  right: 22px;
+  transform: translateY(-50%);
+  z-index: 60;
+  flex-direction: column;
+  gap: 14px;
+  padding: 10px 6px;
+  pointer-events: auto;
 }
-.fade-to-light {
-  background: linear-gradient(to bottom, #131416, #fafbfc);
+@media (max-width: 767px) {
+  .dot-rail { display: none !important; }
+}
+.dot-rail-btn {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: oklch(92% 0.03 85 / 0.22);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.5s var(--ease-out-expo);
+}
+.dot-rail-btn:hover {
+  background: oklch(92% 0.03 85 / 0.5);
+  transform: scale(1.3);
+}
+.dot-rail-btn[data-active="true"] {
+  background: var(--color-cream);
+  box-shadow: 0 0 0 3px oklch(92% 0.03 85 / 0.08), 0 0 10px oklch(92% 0.03 85 / 0.3);
+  transform: scale(1.25);
 }
 
-/* ─── Glass panel: light glass on DARK backgrounds ─── */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.035);
-  backdrop-filter: blur(24px) saturate(1.2);
-  -webkit-backdrop-filter: blur(24px) saturate(1.2);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.2),
-    0 1px 2px rgba(0, 0, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  transition: all 0.35s ease;
-}
-.glass-panel:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.1);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.25),
-    0 2px 4px rgba(0, 0, 0, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.07);
-}
-.glass-panel::after {
-  content: '';
+/* Corner crosshair marks — opt-in only. Most slides don't need them. */
+.corner-marks {
   position: absolute;
-  top: 0; left: 10%; right: 10%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  inset: 0;
   pointer-events: none;
+  z-index: 4;
 }
 
-/* ─── Glass panel: dark/smoky glass on LIGHT backgrounds ─── */
-.glass-dark {
-  background: rgba(30, 35, 50, 0.06);
-  backdrop-filter: blur(20px) saturate(1.3);
-  -webkit-backdrop-filter: blur(20px) saturate(1.3);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.04),
-    0 1px 2px rgba(0, 0, 0, 0.03),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  transition: all 0.35s ease;
-}
-.glass-dark:hover {
-  background: rgba(30, 35, 50, 0.09);
-  border-color: rgba(0, 0, 0, 0.08);
-  box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.06),
-    0 2px 6px rgba(0, 0, 0, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.55);
-}
-.glass-dark::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 10%; right: 10%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
-  pointer-events: none;
+/* ═══════════════════════════════════════════════════════════════════
+   Reduced motion
+   ═══════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
