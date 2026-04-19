@@ -32,14 +32,7 @@ const PRIOR_WORK = [
   },
 ];
 
-const RECEIVING_STATS = [
-  { n: "1,283", label: "lines / week" },
-  { n: "99.4%",  label: "first-pass match" },
-  { n: "127ms",  label: "sheet sync" },
-];
-
 const RECEIVING_HANDLES = [
-  "Vendor alias matching (Con-Tech ↔ Leviton)",
   "Quantity decomposition across slips",
   "Breakout / replacement / partial ship",
   "Google Sheets bookkeeping sync",
@@ -100,25 +93,8 @@ export function Capabilities() {
               get routed; the tracking sheet updates itself.
             </p>
 
-            {/* Stats strip */}
-            <div className="mt-6 grid grid-cols-3 gap-4 border-t border-[color:var(--color-hairline)] pt-5">
-              {RECEIVING_STATS.map((s) => (
-                <div key={s.label}>
-                  <div
-                    className="font-[family-name:var(--font-editorial)] leading-none tabular text-[color:var(--color-cream)]"
-                    style={{ fontSize: "1.45rem" }}
-                  >
-                    {s.n}
-                  </div>
-                  <div className="mt-1.5 text-[11px] font-medium uppercase tracking-[0.14em] text-[color:var(--color-cream-subtle)]">
-                    {s.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-
             {/* Exception handling list */}
-            <ul className="mt-6 grid gap-2.5 sm:grid-cols-2">
+            <ul className="mt-7 grid gap-2.5 border-t border-[color:var(--color-hairline)] pt-6 sm:grid-cols-2">
               {RECEIVING_HANDLES.map((h) => (
                 <li
                   key={h}
