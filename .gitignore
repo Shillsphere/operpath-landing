@@ -4,3 +4,12 @@ out
 .DS_Store
 *.tsbuildinfo
 .vercel
+
+# Environment variables (never commit secrets)
+.env
+.env.local
+.env.*.local
+
+# Pexels download cache
+public/pexels/*
+!public/pexels/.gitkeep
